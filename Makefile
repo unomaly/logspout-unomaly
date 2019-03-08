@@ -1,4 +1,4 @@
-NAME=logspout-honeycomb
+NAME=logspout-unomaly
 BUILD_DIR=build
 
 # If you want to configure the Honeycomb Logspout adapter with environment
@@ -14,9 +14,7 @@ docker:
 # configured by environment variables
 run-with-env:
 	docker run \
-		-e "ROUTE_URIS=honeycomb://localhost" \
-		-e "HONEYCOMB_WRITE_KEY=$(HONEYCOMB_WRITE_KEY)" \
-		-e "HONEYCOMB_DATASET=$(HONEYCOMB_DATASET)" \
+		-e "ROUTE_URIS=unomaly://localhost" \
 		--volume=/var/run/docker.sock:/var/run/docker.sock \
 		--publish=127.0.0.1:8000:80 \
 		$(NAME)
