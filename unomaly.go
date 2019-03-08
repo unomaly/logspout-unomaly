@@ -34,10 +34,14 @@ func NewUnomalyAdapter(route *router.Route) (router.LogAdapter, error) {
 	}
 
 	// TODO(thiderman): Add env control for the rest of the options
-	ingest := ingest.Init(host, ingest.SkipTLSVerify())
+	ingest := ingest.Init(
+		host,
+		ingest.SkipTLSVerify(),
+		ingest.APIPath("/batch"),
+	)
 	a := &UnomalyAdapter{ingest: ingest}
 
-	log.Printf("Adapter created: %+v", a)
+	log.Printf("Adapter created: %+v", a.ingest)
 
 	return a, nil
 }
