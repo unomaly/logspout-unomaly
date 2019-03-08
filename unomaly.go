@@ -10,8 +10,13 @@ import (
 	ingest "github.com/unomaly/ingest-go"
 )
 
+var debug = false
+
 func init() {
 	router.AdapterFactories.Register(NewUnomalyAdapter, "unomaly")
+	if os.Getenv("UNOMALY_DEBUG") != "" {
+		debug = true
+	}
 }
 
 // UnomalyAdapter is an adapter that streams JSON to Logstash.
@@ -55,6 +60,10 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 			Source:    m.Source,
 			Timestamp: time.Now(),
 			Metadata:  data,
+		}
+
+		if debug {
+			log.Print("%+v || %+v", ev, m)
 		}
 
 		a.ingest.Send(ev)
