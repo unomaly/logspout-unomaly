@@ -35,8 +35,11 @@ func NewUnomalyAdapter(route *router.Route) (router.LogAdapter, error) {
 
 	// TODO(thiderman): Add env control for the rest of the options
 	ingest := ingest.Init(host, ingest.SkipTLSVerify())
+	a := &UnomalyAdapter{ingest: ingest}
 
-	return &UnomalyAdapter{ingest: ingest}, nil
+	log.Printf("Adapter created: %+v", a)
+
+	return a, nil
 }
 
 // Stream implements the router.LogAdapter interface.
@@ -63,7 +66,8 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 		}
 
 		if debug {
-			log.Print("%+v || %+v", ev, m)
+			log.Printf("DEBUG Event: %+v", ev)
+			log.Printf("DEBUG stream: %+v", m)
 		}
 
 		a.ingest.Send(ev)
