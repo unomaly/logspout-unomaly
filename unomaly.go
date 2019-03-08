@@ -43,7 +43,7 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 
 	for m := range logstream {
 		data := make(map[string]interface{})
-		data["stream"] = m.Source
+		// data["stream"] = m.Source
 		data["logspout_container"] = m.Container.Name
 		data["logspout_container_id"] = m.Container.ID
 		data["logspout_hostname"] = m.Container.Config.Hostname
@@ -52,7 +52,7 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 
 		ev := &ingest.Event{
 			Message:   m.Data,
-			Source:    hostname,
+			Source:    m.Source,
 			Timestamp: time.Now(),
 			Metadata:  data,
 		}
