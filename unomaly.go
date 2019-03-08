@@ -56,8 +56,6 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 			Metadata:  data,
 		}
 
-		if err := a.ingest.Send(ev); err != nil {
-			log.Println("error: ", err)
-		}
+		a.ingest.Send(ev)
 	}
 }
