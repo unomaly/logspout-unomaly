@@ -28,7 +28,8 @@ func NewUnomalyAdapter(route *router.Route) (router.LogAdapter, error) {
 		host = os.Getenv("UNOMALY_INGESTION")
 	}
 
-	ingest := ingest.Init(host)
+	// TODO(thiderman): Add env control for the rest of the options
+	ingest := ingest.Init(host, ingest.SkipTLSVerify())
 
 	return &UnomalyAdapter{ingest: ingest}, nil
 }

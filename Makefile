@@ -15,6 +15,7 @@ docker:
 run-with-env:
 	docker run \
 		-e "ROUTE_URIS=unomaly://localhost" \
+		-e "UNOMALY_INGESTION=ingestion:6010" \
 		--volume=/var/run/docker.sock:/var/run/docker.sock \
 		--publish=127.0.0.1:8000:80 \
 		$(NAME)
