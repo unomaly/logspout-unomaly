@@ -64,7 +64,7 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 
 		ev := &ingest.Event{
 			Message:   m.Data,
-			Source:    m.Source,
+			Source:    m.Container.Name,
 			Timestamp: time.Now(),
 			Metadata:  data,
 		}
