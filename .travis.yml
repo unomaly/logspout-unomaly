@@ -9,5 +9,5 @@ script:
 
 after_success:
    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-   docker tag logspout-unomaly:1.${TRAVIS_BUILD_NUMBER};
+   docker tag logspout-unomaly unomaly/logspout-unomaly:1.${TRAVIS_BUILD_NUMBER};
    docker push unomaly/logspout-unomaly:1.${TRAVIS_BUILD_NUMBER};
