@@ -10,28 +10,6 @@ HONEYCOMB_DATASET=
 docker:
 	docker build -t $(NAME) image
 
-# Fire up a container with the Honeycomb Logspout adapter in it,
-# configured by environment variables
-run-with-env:
-	docker run \
-		-e "ROUTE_URIS=unomaly://localhost" \
-		-e "UNOMALY_INGESTION=ingestion:6010" \
-		--volume=/var/run/docker.sock:/var/run/docker.sock \
-		--publish=127.0.0.1:8000:80 \
-		$(NAME)
-
-# Fire up a container with the Honeycomb Logspout adapter in it
-run:
-	docker run \
-		--volume=/var/run/docker.sock:/var/run/docker.sock \
-		--publish=127.0.0.1:8000:80 \
-		$(NAME)
-
-# Launches a Docker image that logs random JSON messages every second
-random-source:
-	docker run alpine /bin/sh -c \
-		'while true; do echo {\"random\": `echo $$RANDOM`}; sleep 1; done'
-
 clean:
 	rm -rf $(BUILD_DIR)
 	docker rmi -f $(NAME)

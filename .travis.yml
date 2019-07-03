@@ -9,6 +9,6 @@ script:
 after_success:
  - if [ "$TRAVIS_BRANCH" == "master" ]; then
    docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-   docker tag logspout-honeycomb honeycombio/logspout-honeycomb:1.${TRAVIS_BUILD_NUMBER};
-   docker push honeycombio/logspout-honeycomb:1.${TRAVIS_BUILD_NUMBER};
+   docker tag logspout-unomaly:1.${TRAVIS_BUILD_NUMBER};
+   docker push unomaly/logspout-unomaly:1.${TRAVIS_BUILD_NUMBER};
    fi

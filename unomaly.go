@@ -19,7 +19,7 @@ func init() {
 	}
 }
 
-// UnomalyAdapter is an adapter that streams JSON to Logstash.
+// UnomalyAdapter is an adapter that forwards logs to Unomaly
 type UnomalyAdapter struct {
 	conn   net.Conn
 	route  *router.Route
@@ -33,13 +33,12 @@ func NewUnomalyAdapter(route *router.Route) (router.LogAdapter, error) {
 		host = os.Getenv("UNOMALY_INGESTION")
 	}
 
-	// TODO(thiderman): Add env control for the rest of the options
-	ingest := ingest.Init(
+	in := ingest.Init(
 		host,
 		ingest.SkipTLSVerify(),
 		ingest.APIPath("/v1/batch"),
 	)
-	a := &UnomalyAdapter{ingest: ingest}
+	a := &UnomalyAdapter{ingest: in}
 
 	log.Printf("Adapter created: %+v", a.ingest)
 
@@ -55,7 +54,6 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 
 	for m := range logstream {
 		data := make(map[string]interface{})
-		// data["stream"] = m.Source
 		data["logspout_container"] = m.Container.Name
 		data["logspout_container_id"] = m.Container.ID
 		data["logspout_hostname"] = m.Container.Config.Hostname
@@ -64,7 +62,7 @@ func (a *UnomalyAdapter) Stream(logstream chan *router.Message) {
 
 		ev := &ingest.Event{
 			Message:   m.Data,
-			Source:    m.Container.Name,
+			Source:    m.Container.Config.Image,
 			Timestamp: time.Now(),
 			Metadata:  data,
 		}
