@@ -21,6 +21,6 @@ Env. Variable | routesapi key | Type | Required? | Description |
 
     docker run \
         -e "ROUTE_URIS=unomaly://localhost" \
-        -e "UNOMALY_INGESTION=<UNOMALY_HOAT>" \
+        -e "UNOMALY_INGESTION=<UNOMALY_HOST>" \
         --volume=/var/run/docker.sock:/var/run/docker.sock \
         logspout-unomaly
