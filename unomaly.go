@@ -36,6 +36,7 @@ func NewUnomalyAdapter(route *router.Route) (router.LogAdapter, error) {
 	in := ingest.Init(
 		host,
 		ingest.SkipTLSVerify(),
+		ingest.Gzip(true),
 		ingest.APIPath("/v1/batch"),
 	)
 	a := &UnomalyAdapter{ingest: in}
